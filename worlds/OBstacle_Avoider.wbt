@@ -1,0 +1,163 @@
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/Parquetry.proto"
+
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.113440540618546 0.6220269408084205 0.7747346182098034 0.46240657300699384
+  position -1.7152187919156707 -0.7275012355111088 0.4513442146863592
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 10 10
+  floorTileSize 1 1
+  floorAppearance Parquetry {
+    type "light strip"
+  }
+}
+Robot {
+  translation 0 0 0.0609662
+  rotation 0.2737124442098153 -0.9601921112802935 -0.055790745825641856 0.0001189983215998997
+  children [
+    Camera {
+    }
+    Lidar {
+    }
+    InertialUnit {
+      name "imu"
+    }
+    BallJoint {
+      jointParameters BallJointParameters {
+        position 3.9114844022834867
+        anchor 0 0 -0.042
+      }
+      endPoint Solid {
+        translation -0.0027321028399823915 0.001176958603739561 -0.041612208152685175
+        rotation -0.9904558974243292 0.07648965234542947 -0.11465796239878917 2.236060042470709
+        children [
+          DEF CASTER_SPHERE2 Shape {
+            appearance PBRAppearance {
+              baseColor 0 1 1
+            }
+            geometry Sphere {
+              radius 0.015
+            }
+          }
+        ]
+        boundingObject USE CASTER_SPHERE2
+        physics Physics {
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        position 107.89049448090181
+        axis 0 1 0
+        anchor 0.15 0 -0.02
+        suspensionSpringConstant 5000
+        suspensionDampingConstant 300
+        suspensionAxis 0 0 1
+      }
+      device [
+        PositionSensor {
+          name "RIGHT_WHEEL sensor"
+        }
+        RotationalMotor {
+          name "RIGHT_WHEEL_MOTOR"
+        }
+      ]
+      endPoint Solid {
+        translation 0.15003899768258344 4.064115152129624e-07 -0.019978968907522654
+        rotation -0.7641166414599759 -0.4561405474198431 0.4561376538321 4.446548197983344
+        children [
+          DEF WHEEL_STRUCT Shape {
+            appearance PBRAppearance {
+            }
+            geometry Cylinder {
+              height 0.02
+              radius 0.045
+            }
+          }
+        ]
+        name "WHEEL_STRUCTURE(1)"
+        boundingObject USE WHEEL_STRUCT
+        physics Physics {
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        position 100.32220001650276
+        axis 0 1 0
+        anchor -0.15 0 -0.02
+        suspensionSpringConstant 5000
+        suspensionDampingConstant 300
+        suspensionAxis 0 0 1
+      }
+      device [
+        PositionSensor {
+          name "LEFT_WHEEL sensor"
+        }
+        RotationalMotor {
+          name "LEFT_WHEEL_MOTOR"
+        }
+      ]
+      endPoint Solid {
+        translation -0.15001413861085328 4.586660581798034e-07 -0.019941631825129997
+        rotation 0.989202039924725 -0.10363266971893664 0.10363201231129619 1.5816464513856923
+        children [
+          DEF WHEEL_STRUCT Shape {
+            appearance PBRAppearance {
+            }
+            geometry Cylinder {
+              height 0.02
+              radius 0.045
+            }
+          }
+        ]
+        name "WHEEL_STRUCTURE"
+        boundingObject USE WHEEL_STRUCT
+        physics Physics {
+        }
+      }
+    }
+    DEF BODY_SHAPE Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+      }
+      geometry Box {
+        size 0.22 0.16 0.08
+      }
+    }
+  ]
+  name "Path_Decider"
+  boundingObject USE BODY_SHAPE
+  physics Physics {
+  }
+  controller "my_Robot_Controller"
+}
+DEF OBSTACLE Solid {
+  translation 2 0 0.05
+  rotation 0 0 1 5.30716e-06
+  children [
+    DEF OBSTACLE Shape {
+      appearance PBRAppearance {
+        baseColor 0 1 1
+      }
+      geometry Box {
+        size 0.1 0.1 0.1
+      }
+    }
+  ]
+  name "OBSTACLE"
+  boundingObject USE OBSTACLE
+  physics Physics {
+  }
+}
