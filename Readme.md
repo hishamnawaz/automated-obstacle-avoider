@@ -1,7 +1,6 @@
 # Automated Obstacle Avoider
 
-A simulated differential-drive robot in Webots, built as a scaled-down
-version of an autonomous robot's software stack.
+A simulated differential-drive robot in Webots which can detect objects using OpenCV and YOLO and recalculate path based on obstacles in the path, built as a scaled-down version of an autonomous robot's software stack.
 
 ## Built so far
 - Custom chassis with tuned suspension (spring/damper on both wheels)
@@ -11,6 +10,8 @@ version of an autonomous robot's software stack.
 
 ## In progress
 - Stage 3: PID path following
+- Stage 4: Management of video files using OpenCV
+- Stage 5: Using YOLO to make object detection much more accurate
 
 ## Later
 - Real LiDAR-based perception (full scan, not just closest point)
