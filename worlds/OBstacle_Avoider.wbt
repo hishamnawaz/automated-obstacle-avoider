@@ -8,8 +8,8 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/project
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.113440540618546 0.6220269408084205 0.7747346182098034 0.46240657300699384
-  position -1.7152187919156707 -0.7275012355111088 0.4513442146863592
+  orientation 0.08439565312749571 -0.5579742038668176 -0.8255556683545784 5.920775903939166
+  position -3.682606573613148 -1.9799877461554238 1.2877012765307883
 }
 TexturedBackground {
 }
@@ -39,8 +39,8 @@ Robot {
         anchor 0 0 -0.042
       }
       endPoint Solid {
-        translation -0.0027321028399823915 0.001176958603739561 -0.041612208152685175
-        rotation -0.9904558974243292 0.07648965234542947 -0.11465796239878917 2.236060042470709
+        translation -0.0027321028399823976 0.001176958603739561 -0.041612208152685175
+        rotation -0.9904558974243292 0.07648965234542951 -0.11465796239878924 2.236060042470709
         children [
           DEF CASTER_SPHERE2 Shape {
             appearance PBRAppearance {
@@ -75,7 +75,7 @@ Robot {
       ]
       endPoint Solid {
         translation 0.15003899768258344 4.064115152129624e-07 -0.019978968907522654
-        rotation -0.7641166414599759 -0.4561405474198431 0.4561376538321 4.446548197983344
+        rotation -0.764116641459976 -0.4561405474198432 0.4561376538320993 4.446548197983344
         children [
           DEF WHEEL_STRUCT Shape {
             appearance PBRAppearance {
@@ -143,21 +143,19 @@ Robot {
   }
   controller "my_Robot_Controller"
 }
-DEF OBSTACLE Solid {
-  translation 2 0 0.05
-  rotation 0 0 1 5.30716e-06
+Solid {
+  translation 2.4 0 0.045
   children [
-    DEF OBSTACLE Shape {
+    DEF OBstacle Shape {
       appearance PBRAppearance {
-        baseColor 0 1 1
+        baseColor 0 0.4 1
       }
       geometry Box {
         size 0.1 0.1 0.1
       }
     }
   ]
-  name "OBSTACLE"
-  boundingObject USE OBSTACLE
+  boundingObject USE OBstacle
   physics Physics {
   }
 }

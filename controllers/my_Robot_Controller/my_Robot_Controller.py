@@ -31,13 +31,7 @@ while robot.step(timestep) != -1:
     print(yaw)
     scan= lidar.getRangeImage()
     closest= min(scan)
-    if closest < 0.3:
-        left_motor.setVelocity(0)
-        right_motor.setVelocity(0)
-    else:
-        left_motor.setVelocity(10.0)
-        right_motor.setVelocity(10.0)
-    print(closest)
+    #print(closest)
     image=camera.getImage()
     width=camera.getWidth()
     height=camera.getHeight()
