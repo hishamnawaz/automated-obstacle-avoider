@@ -24,8 +24,18 @@ imu.enable(timestep)
 lidar.enable(timestep)
 left_encoder.enable(timestep)
 right_encoder.enable(timestep)
+target_x = -2.0
+target_y = 2.0
 
+Kp = 2.0
+Ki = 0.0
+Kd = 0.5
+
+integral = 0.0
+last_error = 0.0
+base_speed = 5.0
 while robot.step(timestep) != -1:
+    print("x,y:", x, y)
     print(left_encoder.getValue(), right_encoder.getValue())
     roll, pitch, yaw= imu.getRollPitchYaw()
     print(yaw)
@@ -56,3 +66,19 @@ while robot.step(timestep) != -1:
     theta+= delta_theta
     print(x, y, theta)
     print(f"pos=({x:.2f}, {y:.2f}) heading={theta:.2f} obstacle={closest:.2f}m")
+    desired_theta = math.atan2(target_y - y, target_x - x)
+    error = desired_theta - theta
+    error = math.atan2(math.sin(error), math.cos(error))
+    dt = timestep / 1000.0
+    integral += error * dt
+    derivative = (error - last_error) / dt
+    correction = Kp * error + Ki * integral + Kd * derivative
+    last_error = error
+    distance_to_target = math.sqrt((target_x - x)**2 + (target_y - y)**2)
+    print("dist:", distance_to_target)
+    if distance_to_target < 0.2:
+        left_motor.setVelocity(0)
+        right_motor.setVelocity(0)
+    else:
+        left_motor.setVelocity(base_speed - correction)
+        right_motor.setVelocity(base_speed + correction)
