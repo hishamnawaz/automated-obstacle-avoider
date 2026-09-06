@@ -20,3 +20,6 @@ A simulated differential-drive robot in Webots which can detect objects using Op
 - A* path planning
 - Full autonomous obstacle avoidance
 - Live visualization dashboard
+
+## Bugs
+- Stopping Sense is a bit off
