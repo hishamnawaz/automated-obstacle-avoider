@@ -19,7 +19,6 @@ obstacle box. On play, it drives toward a fixed target point using PID
 steering, printing live position/sensor data to the Console panel
 (bottom of the Webots window).
 
-### Project structure
 # Automated Obstacle Avoider
 
 A simulated differential-drive robot in Webots which can detect objects using OpenCV and YOLO and recalculate path based on obstacles in the path, built as a scaled-down version of an autonomous robot's software stack.
