@@ -43,6 +43,7 @@ A simulated differential-drive robot in Webots which can detect objects using Op
 - A* path planning
 - Full autonomous obstacle avoidance
 - Live visualization dashboard
+- Extended Kalman Filter
 
 ### Known issues (see below for detail)
 - Odometry (the robot's self-computed position) can silently diverge from
