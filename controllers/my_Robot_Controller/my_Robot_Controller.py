@@ -60,7 +60,7 @@ while robot.step(timestep) != -1:
     dist_left = delta_left * WHEEL_RADIUS
     dist_right = delta_right * WHEEL_RADIUS
     distance= (dist_left + dist_right)/2
-    delta_theta= (dist_right-dist_left)/WHEEL_BASE
+    delta_theta= (dist_left-dist_right)/WHEEL_BASE
     x+=distance*math.cos(theta)
     y+=distance*math.sin(theta)
     theta+= delta_theta
@@ -80,5 +80,9 @@ while robot.step(timestep) != -1:
         left_motor.setVelocity(0)
         right_motor.setVelocity(0)
     else:
+        effective_speed = base_speed * math.cos(error)
+        print("error_deg:", math.degrees(error), "effective_speed:", effective_speed)
         left_motor.setVelocity(base_speed - correction)
         right_motor.setVelocity(base_speed + correction)
+    #left_motor.setVelocity(-3)
+    #right_motor.setVelocity(3)
