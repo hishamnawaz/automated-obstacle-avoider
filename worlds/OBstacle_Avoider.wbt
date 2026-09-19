@@ -39,7 +39,7 @@ Robot {
         anchor 0 0 -0.042
       }
       endPoint Solid {
-        translation -0.0027321028399824063 0.001176958603739561 -0.041612208152685175
+        translation -0.002732102839982415 0.001176958603739561 -0.041612208152685175
         rotation -0.9904558974243292 0.07648965234542951 -0.11465796239878924 2.236060042470709
         children [
           DEF CASTER_SPHERE2 Shape {
@@ -142,7 +142,7 @@ Robot {
   controller "my_Robot_Controller"
 }
 Solid {
-  translation 2.4 0 0.045
+  translation 5 0 0.05
   children [
     DEF OBstacle Shape {
       appearance PBRAppearance {

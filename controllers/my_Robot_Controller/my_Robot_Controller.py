@@ -71,7 +71,9 @@ while robot.step(timestep) != -1:
     error = math.atan2(math.sin(error), math.cos(error))
     dt = timestep / 1000.0
     integral += error * dt
-    derivative = (error - last_error) / dt
+    derivative = error - last_error
+    derivative = math.atan2(math.sin(derivative), math.cos(derivative))
+    derivative = derivative / dt
     correction = Kp * error + Ki * integral + Kd * derivative
     last_error = error
     distance_to_target = math.sqrt((target_x - x)**2 + (target_y - y)**2)
@@ -82,7 +84,7 @@ while robot.step(timestep) != -1:
     else:
         effective_speed = base_speed * math.cos(error)
         print("error_deg:", math.degrees(error), "effective_speed:", effective_speed)
-        left_motor.setVelocity(base_speed - correction)
-        right_motor.setVelocity(base_speed + correction)
+        left_motor.setVelocity(effective_speed - correction)
+        right_motor.setVelocity(effective_speed + correction)
     #left_motor.setVelocity(-3)
     #right_motor.setVelocity(3)
