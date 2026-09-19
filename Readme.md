@@ -1,3 +1,4 @@
+# Automated Obstacle Avoider
 ## Getting Started
 
 ### Prerequisites
@@ -19,7 +20,7 @@ obstacle box. On play, it drives toward a fixed target point using PID
 steering, printing live position/sensor data to the Console panel
 (bottom of the Webots window).
 
-# Automated Obstacle Avoider
+# Introduction
 
 A simulated differential-drive robot in Webots which can detect objects using OpenCV and YOLO and recalculate path based on obstacles in the path, built as a scaled-down version of an autonomous robot's software stack.
 
@@ -28,6 +29,7 @@ A simulated differential-drive robot in Webots which can detect objects using Op
 - Free-rolling ball-joint caster
 - Wheel encoders, IMU, LiDAR, camera — all wired and verified
 - Self-computed odometry (x, y, theta from encoder deltas)
+- Simple object detection and stopping 
 
 ## In progress
 - Stage 3: PID path following
@@ -41,11 +43,9 @@ A simulated differential-drive robot in Webots which can detect objects using Op
 - A* path planning
 - Full autonomous obstacle avoidance
 - Live visualization dashboard
+- Extended Kalman Filter
 
 ### Known issues (see below for detail)
 - Odometry (the robot's self-computed position) can silently diverge from
   its real simulated position — likely a left/right sign mismatch in the
   wheel encoder math. Not yet fixed; see "In progress" section.
-- No obstacle avoidance yet — PID will drive straight through anything in
-  its path. The visible obstacle box currently exists for LiDAR-testing
-  purposes, not as something the robot reacts to.
