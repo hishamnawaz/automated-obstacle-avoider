@@ -1,5 +1,5 @@
-WHEEL_RADIUS=0.045
-WHEEL_BASE=0.30
+wheelradius=0.045
+wheelbase=0.30
 import math
 from controller import Robot
 
@@ -7,36 +7,41 @@ robot = Robot()
 camera=robot.getDevice('camera')
 imu= robot.getDevice('imu')
 lidar=robot.getDevice('lidar')
-left_motor = robot.getDevice('LEFT_WHEEL_MOTOR')
-right_motor = robot.getDevice('RIGHT_WHEEL_MOTOR')
-left_motor.setPosition(float('inf'))
-right_motor.setPosition(float('inf'))
+leftmotor = robot.getDevice('LEFT_WHEEL_MOTOR')
+rightmotor = robot.getDevice('RIGHT_WHEEL_MOTOR')
+leftmotor.setPosition(float('inf'))
+rightmotor.setPosition(float('inf'))
 timestep = int(robot.getBasicTimeStep())
 x=0.0
 y=0.0
 theta=0.0
-last_left=0.0
-last_right=0.0
-left_encoder = robot.getDevice('LEFT_WHEEL sensor')
-right_encoder = robot.getDevice('RIGHT_WHEEL sensor')
+lastleft=0.0
+lastright=0.0
+leftencoder = robot.getDevice('LEFT_WHEEL sensor')
+rightencoder = robot.getDevice('RIGHT_WHEEL sensor')
 camera.enable(timestep)
 imu.enable(timestep)
 lidar.enable(timestep)
-left_encoder.enable(timestep)
-right_encoder.enable(timestep)
-target_x = -2.0
-target_y = 2.0
+leftencoder.enable(timestep)
+rightencoder.enable(timestep)
+#target_x = -2.0
+#target_y = 2.0
+
+waypoints = [(-2.0, 2.0), (2.0, -2.0), (0.0, 0.0)]
+initialwaypoint = 0
+targetx, targety = waypoints[initialwaypoint]
 
 Kp = 2.0
 Ki = 0.0
 Kd = 0.5
 
 integral = 0.0
-last_error = 0.0
-base_speed = 5.0
+lasterror = 0.0
+basespeed = 5.0
+avoiddist = 0.4
 while robot.step(timestep) != -1:
     print("x,y:", x, y)
-    print(left_encoder.getValue(), right_encoder.getValue())
+    print(leftencoder.getValue(), rightencoder.getValue())
     roll, pitch, yaw= imu.getRollPitchYaw()
     print(yaw)
     scan= lidar.getRangeImage()
@@ -46,45 +51,49 @@ while robot.step(timestep) != -1:
     width=camera.getWidth()
     height=camera.getHeight()
     print(width, height)
-    center_x = width // 2
-    center_y = height // 2
-    r = camera.imageGetRed(image, width, center_x, center_y)
-    g = camera.imageGetGreen(image, width, center_x, center_y)
-    b = camera.imageGetBlue(image, width, center_x, center_y)
-    left_now= left_encoder.getValue()
-    right_now= right_encoder.getValue()
-    delta_left= left_now - last_left
-    delta_right= right_now - last_right
-    last_left=left_now
-    last_right=right_now
-    dist_left = delta_left * WHEEL_RADIUS
-    dist_right = delta_right * WHEEL_RADIUS
-    distance= (dist_left + dist_right)/2
-    delta_theta= (dist_left-dist_right)/WHEEL_BASE
+    centerx = width // 2
+    centery = height // 2
+    r = camera.imageGetRed(image, width, centerx, centery)
+    g = camera.imageGetGreen(image, width, centerx, centery)
+    b = camera.imageGetBlue(image, width, centerx, centery)
+    leftnow= leftencoder.getValue()
+    rightnow= rightencoder.getValue()
+    deltaleft= leftnow - lastleft
+    deltaright= rightnow - lastright
+    lastleft=leftnow
+    lastright=rightnow
+    distleft = deltaleft * wheelradius
+    distright = deltaright * wheelradius
+    distance= (distleft + distright)/2
+    deltatheta= (distleft-distright)/wheelbase
     x+=distance*math.cos(theta)
     y+=distance*math.sin(theta)
-    theta+= delta_theta
+    theta+= deltatheta
     print(x, y, theta)
-    print(f"pos=({x:.2f}, {y:.2f}) heading={theta:.2f} obstacle={closest:.2f}m")
-    desired_theta = math.atan2(target_y - y, target_x - x)
-    error = desired_theta - theta
+    #print(f"pos=({x:.2f}, {y:.2f}) heading={theta:.2f} obstacle={closest:.2f}m")
+    desiredtheta = math.atan2(targety - y, targetx - x)
+    error = desiredtheta - theta
     error = math.atan2(math.sin(error), math.cos(error))
     dt = timestep / 1000.0
     integral += error * dt
-    derivative = error - last_error
+    derivative = error - lasterror
     derivative = math.atan2(math.sin(derivative), math.cos(derivative))
     derivative = derivative / dt
     correction = Kp * error + Ki * integral + Kd * derivative
-    last_error = error
-    distance_to_target = math.sqrt((target_x - x)**2 + (target_y - y)**2)
-    print("dist:", distance_to_target)
-    if distance_to_target < 0.2:
-        left_motor.setVelocity(0)
-        right_motor.setVelocity(0)
+    lasterror = error
+    distancetotarget = math.sqrt((targetx - x)**2 + (targety - y)**2)
+    print(f"pos=({x:.2f},{y:.2f}) heading={theta:.2f} closest={closest:.2f} waypoint={initialwaypoint}")
+    #print("dist:", distance_to_target)
+    if distancetotarget < 0.2:
+        initialwaypoint += 1
+        if initialwaypoint >= len(waypoints):
+            leftmotor.setVelocity(0)
+            rightmotor.setVelocity(0)
+        else:
+            targetx, targety = waypoints[initialwaypoint]
     else:
-        effective_speed = base_speed * math.cos(error)
-        print("error_deg:", math.degrees(error), "effective_speed:", effective_speed)
-        left_motor.setVelocity(effective_speed - correction)
-        right_motor.setVelocity(effective_speed + correction)
+        effectivespeed = basespeed * math.cos(error)
+        leftmotor.setVelocity(effectivespeed - correction)
+        rightmotor.setVelocity(effectivespeed + correction)
     #left_motor.setVelocity(-3)
     #right_motor.setVelocity(3)
