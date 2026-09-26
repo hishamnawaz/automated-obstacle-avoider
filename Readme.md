@@ -15,7 +15,7 @@
 
 ### What you should see
 A small differential-drive robot with visible wheels, a rear caster, and
-a mounted LiDAR/camera, sitting in an empty arena alongside a static red
+a mounted LiDAR/camera, sitting in an empty arena alongside a static blue
 obstacle box. On play, it drives toward a fixed target point using PID
 steering, printing live position/sensor data to the Console panel
 (bottom of the Webots window).
@@ -29,10 +29,11 @@ A simulated differential-drive robot in Webots which can detect objects using Op
 - Free-rolling ball-joint caster
 - Wheel encoders, IMU, LiDAR, camera — all wired and verified
 - Self-computed odometry (x, y, theta from encoder deltas)
-- Simple object detection and stopping 
+- Simple object detection and stopping
+- PID path following
+- Waypoints method
 
 ## In progress
-- Stage 3: PID path following
 - Stage 4: Management of video files using OpenCV
 - Stage 5: Using YOLO to make object detection much more accurate
 
