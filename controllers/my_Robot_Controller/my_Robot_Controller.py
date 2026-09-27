@@ -84,7 +84,10 @@ while robot.step(timestep) != -1:
     distancetotarget = math.sqrt((targetx - x)**2 + (targety - y)**2)
     print(f"pos=({x:.2f},{y:.2f}) heading={theta:.2f} closest={closest:.2f} waypoint={initialwaypoint}")
     #print("dist:", distance_to_target)
-    if distancetotarget < 0.2:
+    if closest<avoiddist:
+        leftmotor.setVelocity(-4.0)
+        rightmotor.setVelocity(4.0)
+    elif distancetotarget < 0.2:
         initialwaypoint += 1
         if initialwaypoint >= len(waypoints):
             leftmotor.setVelocity(0)
