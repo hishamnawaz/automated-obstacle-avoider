@@ -2,6 +2,8 @@ wheelradius=0.045
 wheelbase=0.30
 import math
 from controller import Robot
+import numpy as np
+from Objectdetection import yolodetection
 
 robot = Robot()
 camera=robot.getDevice('camera')
@@ -51,6 +53,14 @@ while robot.step(timestep) != -1:
     width=camera.getWidth()
     height=camera.getHeight()
     print(width, height)
+    img_array = np.frombuffer(image, dtype=np.uint8).reshape((height, width, 4))
+    frame = img_array[:, :, :3]
+    result=yolodetection(frame)
+    if len(result.boxes) > 0:
+        print("Detections found:", result.boxes.xyxy)
+    else:
+        print("No objects detected in this frame.")
+    print("Detections:", result.boxes.xyxy) 
     centerx = width // 2
     centery = height // 2
     r = camera.imageGetRed(image, width, centerx, centery)
