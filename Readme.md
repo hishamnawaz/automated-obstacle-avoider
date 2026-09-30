@@ -2,16 +2,14 @@
 ## Getting Started
 
 ### Prerequisites
-- [Webots](https://cyberbotics.com/) R2025a or later (free, from Cyberbotics)
-- Python (bundled with Webots — no separate install needed for running the
-  controller, though Webots must be able to find a system Python install
-  for some features)
+- [Webots](https://cyberbotics.com/) R2025a or later
+- Python (bundled with Webots)
 
 ### Opening the project
 1. Launch Webots
 2. File > Open World...
 3. Navigate to `worlds/OBstacle_Avoider.wbt` in this repo and open it
-4. Press the Play (▶) button in the simulation toolbar
+4. Press the Play button in the simulation toolbar
 
 ### What you should see
 A small differential-drive robot with visible wheels, a rear caster, and
@@ -32,10 +30,9 @@ A simulated differential-drive robot in Webots which can detect objects using Op
 - Simple object detection and stopping
 - PID path following
 - Waypoints method
+- Management of video files using OpenCV
+- Using YOLO to make object detection much more accurate
 
-## In progress
-- Stage 4: Management of video files using OpenCV
-- Stage 5: Using YOLO to make object detection much more accurate
 
 ## Later
 - Real LiDAR-based perception (full scan, not just closest point)
@@ -46,7 +43,3 @@ A simulated differential-drive robot in Webots which can detect objects using Op
 - Live visualization dashboard
 - Extended Kalman Filter
 
-### Known issues (see below for detail)
-- Odometry (the robot's self-computed position) can silently diverge from
-  its real simulated position — likely a left/right sign mismatch in the
-  wheel encoder math. Not yet fixed; see "In progress" section.
